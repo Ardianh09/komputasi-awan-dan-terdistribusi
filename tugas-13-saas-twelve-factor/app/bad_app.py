@@ -11,12 +11,9 @@ menjalankan aplikasi ini sebagai aplikasi produksi.)
 
 import requests  # dipakai tapi tidak pernah dicantumkan di file dependency manapun
 
-# Pelanggaran Factor III (Config): kredensial & endpoint di-hardcode langsung di kode.
 DATABASE_URL = "postgresql://admin:SuperSecret123@db.internal.foodgo.com:5432/orders"
 PAYMENT_API_KEY = "sk_live_4f9a8b2c1d3e4f5a6b7c8d9e0f1a2b3c"
 
-# Pelanggaran Factor III juga: path lokal milik satu developer tertentu,
-# tidak akan ada di laptop/server anggota tim lain atau di produksi.
 LOG_PATH = "/Users/developer-a/foodgo/logs/app.log"
 
 
