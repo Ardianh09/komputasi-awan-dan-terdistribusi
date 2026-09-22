@@ -4,13 +4,13 @@
 
 | Nama | NIM | Kontribusi |
 |---|---|---|
-| [nama 1] | [nim] | [pitfall/bagian yang dikerjakan] |
+| Ardian Hoart| [nim] | [pitfall/bagian yang dikerjakan] |
 | [nama 2] | [nim] | [pitfall/bagian yang dikerjakan] |
 | [nama 3] | [nim] | [pitfall/bagian yang dikerjakan] |
 
 ## Pitfall 1: [nama pitfall] — ditulis oleh [nama]
 
-**Bukti di skenario:** [kutip/paraphrase bagian skenario]
+**Bukti di skenario:** network is reliable
 
 **Kenapa ini keliru:** [penjelasan]
 
