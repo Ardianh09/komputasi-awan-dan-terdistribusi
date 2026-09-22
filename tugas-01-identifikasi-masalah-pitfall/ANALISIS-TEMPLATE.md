@@ -4,11 +4,11 @@
 
 | Nama | NIM | Kontribusi |
 |---|---|---|
-| Ardian Hoart| [103072400098] | [pitfall 1] |
-| Muhammad Yusuf Ar Rahman | [103072400143] | [pitfall/bagian yang dikerjakan] |
+| Ardian Hoart| 103072400098 | pitfall 1 |
+| Muhammad Yusuf Ar Rahman | 103072400143 | pitfall 2 |
 | [nama 3] | [nim] | [pitfall/bagian yang dikerjakan] |
 
-## Pitfall 1: [Bandwidth is infinite] — ditulis oleh [Ardian Hoart]
+## Pitfall 1: Bandwidth is infinite — ditulis oleh Ardian Hoart
 
 **Bukti di skenario:** Saat trafik naik, satu server yang menangani semua modul menjadi kewalahan.
 
@@ -22,9 +22,17 @@
 
 ---
 
-## Pitfall 2: [nama pitfall] — ditulis oleh [nama]
+## Pitfall 2: Latency is zero — ditulis oleh Muhammad Yusuf Ar Rahman
 
-(ulangi struktur di atas)
+**Bukti di skenario:** Modul pesanan memanggil modul pembayaran dan menunggu tanpa batas waktu karena tidak ada timeout pada pemanggilan antar service.
+
+**Kenapa ini keliru:** Komunikasi antar service tidak selalu memiliki waktu respons yang sama. Service pembayaran bisa mengalami keterlambatan karena beban yang tinggi, masalah jaringan, atau sedang mengalami gangguan. Karena itu, sistem tidak boleh menganggap bahwa respons dari service lain akan selalu datang dengan cepat.
+
+**Dampak ke FoodGo:** Saat trafik FoodGo meningkat, banyak request pesanan dapat memanggil modul pembayaran secara bersamaan. Jika modul pembayaran mengalami keterlambatan, request dari modul pesanan akan terus menunggu karena tidak memiliki timeout. Jika jumlah request yang menunggu semakin banyak, resource server seperti thread dan koneksi dapat ikut terpakai sehingga aplikasi menjadi semakin lambat dan pada kondisi tertentu dapat mengalami timeout atau crash.
+
+**Solusi desain awal:** FoodGo dapat menerapkan timeout pada komunikasi antara modul pesanan dan pembayaran sehingga request tidak menunggu selamanya. Selain itu, circuit breaker dapat digunakan untuk menghentikan sementara pemanggilan ke service pembayaran ketika service tersebut terus mengalami kegagalan atau terlalu lambat.
+
+**Trade-off:** Timeout dapat menyebabkan beberapa transaksi dianggap gagal atau belum selesai meskipun service pembayaran sebenarnya masih memprosesnya. Sementara itu, retry dapat membantu ketika terjadi gangguan sementara, tetapi jika dilakukan terlalu banyak saat service sedang overload, retry justru dapat menambah beban dan memperparah masalah.
 
 ---
 
