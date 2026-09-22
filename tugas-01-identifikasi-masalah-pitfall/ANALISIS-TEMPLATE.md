@@ -6,7 +6,7 @@
 |---|---|---|
 | Ardian Hoart| 103072400098 | pitfall 1 |
 | Muhammad Yusuf Ar Rahman | 103072400143 | pitfall 2 |
-| [nama 3] | [nim] | [pitfall/bagian yang dikerjakan] |
+| [Ardian Hoart] | 103072400098 | pitfall 3 |
 
 ## Pitfall 1: Bandwidth is infinite — ditulis oleh Ardian Hoart
 
@@ -36,12 +36,20 @@
 
 ---
 
-## Pitfall 3: [nama pitfall] — ditulis oleh [nama]
+## Pitfall 3: the network is reliable — ditulis oleh Ardian Hoart
 
-(ulangi struktur di atas)
+**Bukti di skenario:** network is always reliable, no need for retry
+
+**Kenapa ini keliru:** Dalam sistem terdistribusi, koneksi antar-service tidak selalu berjalan dengan baik. Bisa saja terjadi koneksi terputus, request gagal, atau service yang dituju tidak memberikan respons. Karena itu, sistem harus bisa menangani kemungkinan tersebut.
+
+**Dampak ke FoodGo:**Jika komunikasi dengan service pembayaran mengalami gangguan, modul pesanan bisa tidak mendapatkan respons. Hal ini dapat membuat proses pesanan gagal dan pengguna mendapatkan error atau harus mencoba kembali.
+
+**Solusi desain awal:**FoodGo bisa menambahkan retry dengan jumlah percobaan yang terbatas dan menggunakan exponential backoff. Selain itu, dapat ditambahkan timeout dan circuit breaker agar request tidak terus dikirim ke service yang sedang bermasalah.
+
+**Trade-off:**Retry dapat membantu ketika gangguan hanya sementara. Namun, jika dilakukan terlalu sering, request tambahan justru bisa membuat beban server semakin tinggi dan memperparah masalah.
 
 ---
 
 ## Kesimpulan Kelompok
 
-[Ringkasan: jika FoodGo memperbaiki ketiga pitfall ini, apa arsitektur yang disarankan secara garis besar? Kaitkan dengan Tugas 2.]
+Berdasarkan ketiga pitfall yang dibahas, FoodGo perlu memiliki sistem yang lebih fleksibel dan tidak bergantung pada satu server. Beberapa modul dapat dipisahkan agar beban kerja bisa dibagi, kemudian menggunakan load balancer untuk mengatur trafik. Untuk komunikasi antar-service, dapat ditambahkan timeout, retry, dan circuit breaker. Dengan cara ini, FoodGo dapat lebih siap menghadapi trafik tinggi maupun gangguan pada salah satu service.
