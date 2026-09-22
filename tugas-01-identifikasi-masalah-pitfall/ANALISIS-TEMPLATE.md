@@ -5,7 +5,7 @@
 | Nama | NIM | Kontribusi |
 |---|---|---|
 | Ardian Hoart| [103072400098] | [pitfall 1] |
-| [nama 2] | [nim] | [pitfall/bagian yang dikerjakan] |
+| Muhammad Yusuf Ar Rahman | [103072400143] | [pitfall/bagian yang dikerjakan] |
 | [nama 3] | [nim] | [pitfall/bagian yang dikerjakan] |
 
 ## Pitfall 1: [Bandwidth is infinite] — ditulis oleh [Ardian Hoart]
