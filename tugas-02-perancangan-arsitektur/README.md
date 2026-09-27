@@ -79,17 +79,21 @@ graph LR
   ```
 
   3. ### Alur end-to-end
-1. Pelanggan membuat pesanan
-   Pelanggan mengirim request ke Service Pesanan menggunakan komunikasi sinkron/request. Service Pesanan menerima data pesanan dan memprosesnya.
-2. Service Pesanan meminta pembayaran
-   Service Pesanan berkomunikasi dengan Service Pembayaran secara sinkron dengan pola request-response. Service Pesanan mengirim permintaan pembayaran, kemudian Service Pembayaran mengembalikan respons apakah pembayaran berhasil atau gagal.
-3. Pembayaran berhasil > event dipublikasikan
-   Setelah pembayaran berhasil, Service Pesanan mempublikasikan event OrderPaid ke Message Broker. Komunikasi ini bersifat asinkron/event, sehingga Service Pesanan tidak perlu menunggu setiap service penerima menyelesaikan prosesnya.
-4. Katalog/Resto menerima event
-   Service Katalog Resto melakukan subscribe terhadap event yang relevan melalui Message Broker. Ketika OrderPaid diterima, informasi tersebut dapat digunakan untuk proses penerimaan pesanan di sisi resto. Ini merupakan komunikasi asinkron berbasis event.
-5. Kurir/Notifikasi menerima event
-   Service Kurir/Notifikasi juga melakukan subscribe melalui Message Broker. Setelah menerima event, service tersebut dapat memproses informasi pesanan untuk kebutuhan notifikasi atau proses penugasan kurir. Komunikasinya juga asinkron/event.
-Secara keseluruhan, komunikasi antara Pelanggan–Pesanan dan Pesanan–Pembayaran menggunakan pola sinkron, sedangkan komunikasi setelah pembayaran menggunakan event secara asinkron melalui Message Broker.
+    1. Pelanggan membuat pesanan
+       Pelanggan mengirim request ke Service Pesanan menggunakan komunikasi sinkron/request. Service Pesanan menerima data pesanan dan memprosesnya.
+    2. Service Pesanan meminta pembayaran
+       Service Pesanan berkomunikasi dengan Service Pembayaran secara sinkron dengan pola request-response. Service Pesanan mengirim permintaan pembayaran, kemudian Service Pembayaran mengembalikan respons apakah
+       pembayaran berhasil atau gagal.
+    3. Pembayaran berhasil > event dipublikasikan
+       Setelah pembayaran berhasil, Service Pesanan mempublikasikan event OrderPaid ke Message Broker. Komunikasi ini bersifat asinkron/event, sehingga Service Pesanan tidak perlu menunggu setiap service penerima
+       menyelesaikan prosesnya.
+    4. Katalog/Resto menerima event
+       Service Katalog Resto melakukan subscribe terhadap event yang relevan melalui Message Broker. Ketika OrderPaid diterima, informasi tersebut dapat digunakan untuk proses penerimaan pesanan di sisi resto. Ini
+       merupakan komunikasi asinkron berbasis event.
+    5. Kurir/Notifikasi menerima event
+       Service Kurir/Notifikasi juga melakukan subscribe melalui Message Broker. Setelah menerima event, service tersebut dapat memproses informasi pesanan untuk kebutuhan notifikasi atau proses penugasan kurir. 
+       Komunikasinya juga asinkron/event.
+    Secara keseluruhan, komunikasi antara Pelanggan–Pesanan dan Pesanan–Pembayaran menggunakan pola sinkron, sedangkan komunikasi setelah pembayaran menggunakan event secara asinkron melalui Message Broker.
 
   4. ### Analisis Arsitektur
 
