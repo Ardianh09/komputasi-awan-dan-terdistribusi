@@ -55,3 +55,25 @@ tugas-02-perancangan-arsitektur/
 Kebijakan **Level 2 (AI Assisted Idea Generation & Structuring)** berlaku — lihat [`../RUBRIK-UMUM.md`](../RUBRIK-UMUM.md). Boleh memakai AI untuk brainstorming komponen apa saja yang umum ada di gaya arsitektur SOA/Pub-Sub; **tidak boleh** meminta AI menggambar diagram final atau menuliskan analisis trade-off yang tinggal ditempel. Catat pemakaian AI di "Log Penggunaan AI" pada `JURNAL.md`.
 
 - Diagram Mermaid/draw.io yang "terlalu generik" (identik dengan contoh tutorial di internet tanpa penyesuaian ke kasus FoodGo) akan dinilai rendah pada komponen kelengkapan & kejelasan diagram.
+
+## Jawaban Tugas Kelompok
+
+1. Gaya Arsitektur
+
+Kami memilih menggunakan kombinasi **Service-Oriented Architecture (SOA)** dan **Publish-Subscribe**. SOA digunakan untuk memisahkan sistem FoodGo menjadi beberapa service berdasarkan fungsinya, seperti Pesanan, Pembayaran, Katalog Resto, serta Kurir dan Notifikasi. Dengan pemisahan tersebut, setiap service dapat dikembangkan dan dikelola secara lebih independen.
+
+Sementara itu, **Publish-Subscribe** digunakan untuk menangani komunikasi berbasis event, seperti ketika pesanan berhasil dibuat atau pembayaran berhasil dilakukan. Event tersebut dapat dikirim melalui message broker dan diterima oleh service yang membutuhkan, sehingga antar-service tidak terlalu bergantung secara langsung. Kombinasi keduanya dipilih karena dapat membantu FoodGo mengurangi ketergantungan antar modul sekaligus membuat sistem lebih fleksibel untuk dikembangkan.
+
+2. 
+```mermaid
+graph LR
+  Client[Pelanggan] -->|HTTP request| OrderSvc[Service Pesanan]
+
+  OrderSvc -->|Sync: request pembayaran| PaymentSvc[Service Pembayaran]
+  PaymentSvc -->|Sync: payment response| OrderSvc
+
+  OrderSvc -->|Async: publish event OrderPaid| Broker[(Message Broker)]
+
+  Broker -->|Async: subscribe OrderPaid| RestoSvc[Service Katalog Resto]
+  Broker -->|Async: subscribe OrderPaid| NotifSvc[Service Kurir / Notifikasi]
+  ```
