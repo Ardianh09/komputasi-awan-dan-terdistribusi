@@ -77,3 +77,23 @@ graph LR
   Broker -->|Async: subscribe OrderPaid| RestoSvc[Service Katalog Resto]
   Broker -->|Async: subscribe OrderPaid| NotifSvc[Service Kurir / Notifikasi]
   ```
+
+  3. ### Alur end-to-end
+1. Pelanggan membuat pesanan
+   Pelanggan mengirim request ke Service Pesanan menggunakan komunikasi sinkron/request. Service Pesanan menerima data pesanan dan memprosesnya.
+2. Service Pesanan meminta pembayaran
+   Service Pesanan berkomunikasi dengan Service Pembayaran secara sinkron dengan pola request-response. Service Pesanan mengirim permintaan pembayaran, kemudian Service Pembayaran mengembalikan respons apakah pembayaran berhasil atau gagal.
+3. Pembayaran berhasil > event dipublikasikan
+   Setelah pembayaran berhasil, Service Pesanan mempublikasikan event OrderPaid ke Message Broker. Komunikasi ini bersifat asinkron/event, sehingga Service Pesanan tidak perlu menunggu setiap service penerima menyelesaikan prosesnya.
+4. Katalog/Resto menerima event
+   Service Katalog Resto melakukan subscribe terhadap event yang relevan melalui Message Broker. Ketika OrderPaid diterima, informasi tersebut dapat digunakan untuk proses penerimaan pesanan di sisi resto. Ini merupakan komunikasi asinkron berbasis event.
+5. Kurir/Notifikasi menerima event
+   Service Kurir/Notifikasi juga melakukan subscribe melalui Message Broker. Setelah menerima event, service tersebut dapat memproses informasi pesanan untuk kebutuhan notifikasi atau proses penugasan kurir. Komunikasinya juga asinkron/event.
+Secara keseluruhan, komunikasi antara Pelanggan–Pesanan dan Pesanan–Pembayaran menggunakan pola sinkron, sedangkan komunikasi setelah pembayaran menggunakan event secara asinkron melalui Message Broker.
+
+  4. ### Analisis Arsitektur
+
+Penggunaan SOA dan Publish-Subscribe dapat mengurangi coupling pada FoodGo karena proses pesanan, pembayaran, katalog restoran, dan kurir dipisahkan menjadi beberapa service. Contohnya, setelah pelanggan melakukan pembayaran, Service Pesanan mengirim event `OrderPaid` melalui Message Broker. Event tersebut kemudian dapat diterima oleh Service Katalog Resto dan Service Kurir/Notifikasi tanpa Service Pesanan harus berkomunikasi langsung dengan keduanya. Dengan begitu, perubahan pada satu service tidak terlalu berdampak pada alur FoodGo secara keseluruhan.
+
+Trade-off-nya, sistem menjadi lebih kompleks karena harus mengelola beberapa service dan Message Broker. Selain itu, debugging lebih sulit karena komunikasi asynchronous membuat alurnya tidak selalu berjalan secara langsung. Misalnya, jika event `OrderPaid` gagal diproses, perlu dicek service dan komunikasi mana yang mengalami masalah.
+
