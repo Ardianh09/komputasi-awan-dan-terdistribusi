@@ -72,10 +72,13 @@ graph LR
   OrderSvc -->|Sync: request pembayaran| PaymentSvc[Service Pembayaran]
   PaymentSvc -->|Sync: payment response| OrderSvc
 
-  OrderSvc -->|Async: publish event OrderPaid| Broker[(Message Broker)]
+  OrderSvc -->|Async: publish OrderPaid| Broker[(Message Broker)]
 
   Broker -->|Async: subscribe OrderPaid| RestoSvc[Service Katalog Resto]
-  Broker -->|Async: subscribe OrderPaid| NotifSvc[Service Kurir / Notifikasi]
+  Broker -->|Async: subscribe OrderPaid| CourierSvc[Service Kurir / Notifikasi]
+
+  RestoSvc -->|Konfirmasi pesanan| Broker
+  CourierSvc -->|Penugasan kurir| Broker
   ```
 
   3. ### Alur end-to-end
