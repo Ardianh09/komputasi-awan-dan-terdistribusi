@@ -29,14 +29,13 @@ def process_order(order_id: int) -> None:
 
     # TODO 2: Tambahkan increment `processed_count` DI SINI.
     # Langkah 1: jalankan dulu tanpa lock (increment biasa: processed_count += 1)
-    #            dan buktikan hasil akhirnya sering salah (< NUM_ORDERS).
-    current_count = processed_count
-    time.sleep(0.001)
-    processed_count = current_count + 1
+    #            dan buktikan hasil akhirnya sering salah (< NUM_ORDERS). 
     # Langkah 2: bungkus increment dengan `with lock:` dan buktikan hasilnya
     #            selalu tepat NUM_ORDERS. Simpan bukti kedua kondisi ini
     #            di JURNAL.md / folder bukti/.
-  
+    with lock:
+        processed_count += 1
+
 
 def worker(order_ids: list) -> None:
     """Satu thread pekerja memproses sekumpulan order_id."""
