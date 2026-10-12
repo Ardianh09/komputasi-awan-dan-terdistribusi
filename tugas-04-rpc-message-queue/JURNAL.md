@@ -1,7 +1,10 @@
 # Jurnal Proses — Tugas 4
 
 ## Jalur yang dipilih
-- [RPC / MQ / keduanya], alasan: ...
+- RPC (Jalur A), alasan: kebutuhan utama di studi kasus adalah respons seketika
+  (cek saldo) sehingga pola sinkron request-response paling cocok. Selain itu
+  xmlrpc bagian dari standard library Python sehingga tidak butuh install
+  apa pun, dan hasilnya langsung bisa diuji di satu laptop.
 
 ## Kendala teknis
 - Error saat setup (mis. koneksi RabbitMQ ditolak, port bentrok): ...
