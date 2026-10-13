@@ -2,8 +2,12 @@
 Tugas 4 - Jalur A: RPC Server (simulasi modul Pembayaran)
 Memakai xmlrpc.server dari Python standard library - tidak perlu install apa pun.
 """
-
+import os 
+import time
+from xmlrpc import server
 from xmlrpc.server import SimpleXMLRPCServer
+
+RPC_DELAY = float(os.environ.get("RPC_DELAY", "0"))
 
 # Simulasi "database" saldo user
 saldo_user = {
@@ -14,6 +18,7 @@ saldo_user = {
 
 def cek_saldo(user_id: str) -> float:
     """Kembalikan saldo user_id saat ini."""
+    time.sleep(RPC_DELAY)
     # TODO 1: kembalikan saldo dari dict `saldo_user`.
     # Jika user_id tidak ada, putuskan sendiri perilakunya (mis. return 0 atau raise error)
     # dan jelaskan keputusan ini di README.md.
@@ -24,6 +29,7 @@ def cek_saldo(user_id: str) -> float:
 
 def proses_pembayaran(user_id: str, jumlah: float) -> dict:
     """Kurangi saldo user sejumlah `jumlah`. Kembalikan status hasil."""
+    time.sleep(RPC_DELAY)
     # TODO 2: validasi saldo cukup, kurangi saldo_user[user_id], dan kembalikan
     # dict berisi minimal {"status": "sukses"/"gagal", "saldo_akhir": ...}
     if user_id not in saldo_user:
@@ -44,8 +50,13 @@ def main():
     server.register_function(cek_saldo, "cek_saldo")
     server.register_function(proses_pembayaran, "proses_pembayaran")
     print("RPC server modul Pembayaran berjalan di port 8000...")
-    server.serve_forever()
+    
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("Server dihentikan.")
+        server.server_close()
 
 
 if __name__ == "__main__":
-    main()
+    main()  

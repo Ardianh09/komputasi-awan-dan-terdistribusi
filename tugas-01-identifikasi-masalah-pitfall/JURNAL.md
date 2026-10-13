@@ -2,13 +2,13 @@
 
 > Isi jurnal ini selama proses diskusi berlangsung, bukan ditulis ulang rapi di akhir. Tulis dengan gaya bebas — poin diskusi, kebuntuan, perubahan pikiran.
 
-## [Tanggal diskusi 1]
-- Peserta: [nama-nama yang hadir]
-- Poin diskusi: ...
+## [22 september 2026]
+- Peserta: Ardian Hoart, Muhammad Yusuf Ar. Rahman
+- the network is reliable
 - Perbedaan pendapat (jika ada): ...
 
 ## [Tanggal diskusi 2]
-- ...
+-
 
 ## Review Silang
 - [Nama] mengomentari analisis [Nama lain]: ...
