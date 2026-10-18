@@ -84,10 +84,10 @@ class Node:
         # ke SEMUA peer (bukan cuma yang lebih tinggi).
         with self.lock:
             self.leader_id = self.node_id
-        print(f"[Node {self.node_id}] Saya jadi LEADER, broadcast COORDINATOR")          # <-- BARU
-        for peer_id, peer_port in self.peers.items():                                    # <-- BARU
-            berhasil = self.send_message(peer_port, "COORDINATOR")                       # <-- BARU
-            status = "terkirim" if berhasil else "gagal (node mati)"                     # <-- BARU
+        print(f"[Node {self.node_id}] Saya jadi LEADER, broadcast COORDINATOR")
+        for peer_id, peer_port in self.peers.items():
+            berhasil = self.send_message(peer_port, "COORDINATOR")
+            status = "terkirim" if berhasil else "gagal (node mati)"
             print(f"[Node {self.node_id}] COORDINATOR ke node {peer_id}: {status}")
 
     def monitor_leader(self):
